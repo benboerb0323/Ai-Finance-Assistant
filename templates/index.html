@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>AI金融助手</title>
+</head>
+
+<body>
+
+    <h1>AI金融助手</h1>
+
+    <form method="POST">
+
+        <input type="text" name="user_input" placeholder="请输入客户需求">
+
+        <button type="submit">开始分析</button>
+
+    </form>
+    {% for item in result %}
+
+        <p>{{ item }}</p>
+        
+    {% endfor %}
+
+</body>
+
+</html>
