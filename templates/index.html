@@ -3,24 +3,32 @@
 
 <head>
     <title>AI金融助手</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
 </head>
 
-<body style="font-family: Arial;" margin="40px">
+<body>
+    <div class="container">
 
-    <h1 style="color: blue;">AI金融助手</h1>
+        <h1>AI金融助手</h1>
 
-    <form method="POST">
+        <form method="POST">
 
-        <input width="300px" height="300px" type="text" name="user_input" placeholder="请输入客户需求">
+            <input type="text" name="user_input" placeholder="请输入客户需求" value="{{ user_input }}">
 
-        <button height="36px" type="submit">开始分析</button>
+            <button type="submit">开始分析</button>
 
-    </form>
-    {% for item in result %}
+        </form>
+        
+        <div class="result-box">
+            {% for item in result %}
 
-        <p>{{ item }}</p>
+               <p>{{ item }}</p>
 
-    {% endfor %}
+            {% endfor %}
+        </div>
+
+    <div>
 
 </body>
 
