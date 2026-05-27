@@ -1,11 +1,14 @@
 from flask import Flask,render_template,request
-import google.generativeai as genai
+from openai import OpenAI
 from dotenv import load_dotenv
 import os
 
 load_dotenv()
 
-genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
+client=OpenAI(
+    api_key=os.getenv("DEEPSEEK_API_KEY"),
+    base_url="https://api.deepseek.com"
+)
 
 app = Flask(__name__)
 
@@ -36,20 +39,26 @@ def analyse_financial_needs(user_input):
 
 def ai_reply(question):
 
-    model = genai.GenerativeModel("gemini-1.5-flash")
+    response=client.chat.completions.create(
 
-    response = model.generate_content(f"""
+        model="deepseek-chat",
 
-        你是一名专业银行AI助手。
-
-请用简洁、稳健、专业的语气回答用户问题。
-
-用户问题：
-{question}
-"""
+        messages=[
+            {
+                "role":"system",
+                "content":"你是一名专业银行AI助手。请用简洁、稳健、专业的语气回答用户问题。"
+            },
+            {
+                "role":"user",
+                "content":question
+            }
+        ]
     )
 
-    return response.text
+    
+
+       
+    return response.choices[0].message.content
 
 
 @app.route("/",methods=["GET","POST"])
