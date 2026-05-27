@@ -1,4 +1,11 @@
 from flask import Flask,render_template,request
+import google.generativeai as genai
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
 app = Flask(__name__)
 
@@ -26,6 +33,25 @@ def analyse_financial_needs(user_input):
     
     return result
 
+
+def ai_reply(question):
+
+    model = genai.GenerativeModel("gemini-1.5-flash")
+
+    response = model.generate_content(f"""
+
+        你是一名专业银行AI助手。
+
+请用简洁、稳健、专业的语气回答用户问题。
+
+用户问题：
+{question}
+"""
+    )
+
+    return response.text
+
+
 @app.route("/",methods=["GET","POST"])
 
 def home():
@@ -39,7 +65,7 @@ def home():
 
         user_input = request.form["user_input"]
 
-        result = analyse_financial_needs(user_input)
+        result = [ai_reply(user_input)]
 
 
         
