@@ -1,4 +1,4 @@
-from flask import Flask,render_template,request
+from flask import Flask,render_template,request,redirect,url_for
 from openai import OpenAI
 from dotenv import load_dotenv
 import os
@@ -71,7 +71,6 @@ def ai_reply(question):
 
 
 @app.route("/",methods=["GET","POST"])
-
 def home():
     
     result =  []
@@ -93,6 +92,23 @@ def home():
         user_input=user_input,
         messages=messages
         )
+
+
+
+
+@app.route("/clear",methods=["POST"])
+def clear_chat():
+
+    global messages
+
+    messages = [
+        {
+            "role":"system",
+            "content":"你是一名专业银行AI助手"
+        }
+    ]
+
+    return redirect(url_for("home"))
 
 if __name__ == "__main__":
     app.run(debug=True)

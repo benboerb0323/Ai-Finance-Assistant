@@ -17,7 +17,11 @@
             <input type="text" name="user_input" placeholder="请输入客户需求" value="{{ user_input }}">
 
             <button type="submit">开始分析</button>
+            
 
+        </form>
+        <form method="POST" action="/clear">
+            <button type="submit">清除对话</button>
         </form>
         
         <div class="result-box">
