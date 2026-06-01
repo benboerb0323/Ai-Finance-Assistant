@@ -21,14 +21,20 @@
         </form>
         
         <div class="result-box">
-            {% for item in result %}
-
-               <p>{{ item }}</p>
-
+            {% for message in messages %}
+                  {% if message.role == "user" %}
+                        <div class="message user-message">
+                              <strong>你：</strong>{{message.content}}
+                        </div>
+                  {% elif message.role == "assistant" %}
+                        <div class="message ai-message">
+                               <strong>AI:</strong>{{message.content}}
+                        </div>
+                  {% endif %}
             {% endfor %}
         </div>
 
-    <div>
+    </div>
 
 </body>
 

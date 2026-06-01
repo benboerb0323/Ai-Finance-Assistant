@@ -11,6 +11,12 @@ client=OpenAI(
 )
 
 app = Flask(__name__)
+messages = [
+    {
+        "role":"system",
+        "content":"你是一名专业银行AI助手"
+    }
+]
 
 
 
@@ -39,26 +45,29 @@ def analyse_financial_needs(user_input):
 
 def ai_reply(question):
 
+    global messages
+
+    messages.append(
+        {
+            "role":"user",
+            "content":question
+        }
+    )
     response=client.chat.completions.create(
 
         model="deepseek-chat",
+        messages=messages
+    )
+    ai_text = response.choices[0].message.content
 
-        messages=[
-            {
-                "role":"system",
-                "content":"你是一名专业银行AI助手。请用简洁、稳健、专业的语气回答用户问题。"
-            },
-            {
-                "role":"user",
-                "content":question
-            }
-        ]
+    messages.append(
+        {
+            "role":"assistant",
+            "content":ai_text
+        }
     )
 
-    
-
-       
-    return response.choices[0].message.content
+    return ai_text
 
 
 @app.route("/",methods=["GET","POST"])
@@ -78,7 +87,12 @@ def home():
 
 
         
-    return render_template("index.html",result=result,user_input=user_input)
+    return render_template(
+        "index.html",
+        result=result,
+        user_input=user_input,
+        messages=messages
+        )
 
 if __name__ == "__main__":
     app.run(debug=True)
