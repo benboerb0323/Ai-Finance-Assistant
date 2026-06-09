@@ -24,7 +24,7 @@
             <button type="submit">清除对话</button>
         </form>
         
-        <div class="result-box">
+        <div class="result-box" id="chat-box">
             {% for message in messages %}
                   {% if message.role == "user" %}
                         <div class="message user-message">
@@ -39,7 +39,11 @@
         </div>
 
     </div>
+<script>
+    const chatBox = document.getElementById("chat-box");
 
+    chatBox.scrollTop = chatBox.scrollHeight;
+</script>
 </body>
 
 </html>

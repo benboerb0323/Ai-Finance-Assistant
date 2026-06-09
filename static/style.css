@@ -53,6 +53,8 @@ button:hover {
     background: #f8fbff;
     border-left: 5px solid #1f5eff;
     border-radius: 10px;
+    max-height: 400px;
+    overflow-y: auto;
 }
 
 .result-box p {
