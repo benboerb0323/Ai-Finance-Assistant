@@ -85,12 +85,13 @@ def home():
         result = [ai_reply(user_input)]
 
 
-        
+    chat_count = (len(messages) - 1) // 2
     return render_template(
         "index.html",
         result=result,
-        user_input=user_input,
-        messages=messages
+        user_input="",
+        messages=messages,
+        chat_count=chat_count
         )
 
 

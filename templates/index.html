@@ -12,11 +12,13 @@
 
         <h1>AI金融助手</h1>
 
-        <form method="POST">
+        <h3>当前对话数: {{ chat_count }}</h3>
 
-            <input type="text" name="user_input" placeholder="请输入客户需求" value="{{ user_input }}">
+        <form method="POST" id="chat-form">
 
-            <button type="submit">开始分析</button>
+            <input type="text" id="chat-input"name="user_input" placeholder="请输入客户需求" value="{{ user_input }}">
+
+            <button type="submit" id="send-button">开始分析</button>
             
 
         </form>
@@ -27,13 +29,21 @@
         <div class="result-box" id="chat-box">
             {% for message in messages %}
                   {% if message.role == "user" %}
-                        <div class="message user-message">
-                              <strong>你：</strong>{{message.content}}
+                        <div class = "chat-row user-row">
+                                <div class="message user-message">
+                                   <strong>你：</strong>{{message.content}}
+                                </div>
+                                <div class = "avatar user-avatar">你</div>
                         </div>
                   {% elif message.role == "assistant" %}
-                        <div class="message ai-message">
-                               <strong>AI:</strong>{{message.content}}
-                        </div>
+
+                            <div class="chat-row ai-row">
+                                <div class = "avatar ai-avatar">AI</div>
+                                <div class="message ai-message">
+                                     <strong>AI:</strong>{{message.content}}
+                                </div>
+                            </div>
+
                   {% endif %}
             {% endfor %}
         </div>
@@ -43,6 +53,25 @@
     const chatBox = document.getElementById("chat-box");
 
     chatBox.scrollTop = chatBox.scrollHeight;
+
+    const input = document.getElementById("chat-input");
+
+    const form = document.getElementById("chat-form");
+
+    const sendButton = document.getElementById("send-button");
+
+    input.addEventListener("keydown", function(event) {
+
+        if (event.key === "Enter") {
+
+            form.submit();
+        }
+    });
+
+    form.addEventListener("submit", function() {
+        sendButton.innerText = "AI思考中...";
+        sendButton.disabled = true;
+    });
 </script>
 </body>
 
