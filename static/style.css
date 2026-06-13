@@ -117,3 +117,10 @@ button:hover {
     background: #e6ecf5;
     color: #123c69;
 }
+
+.error-message {
+    color: #d93025;
+    font-size: 14px;
+    margin-top: 8px;
+    min-height: 20px;
+}
