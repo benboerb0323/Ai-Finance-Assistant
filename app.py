@@ -86,12 +86,21 @@ def home():
 
 
     chat_count = (len(messages) - 1) // 2
+
+    quick_questions = [
+        "基金适合长期持有吗",
+        "低风险理财推荐",
+        "债券基金适合新手吗？",
+        "每月工资怎么规划？"
+    ]
+
     return render_template(
         "index.html",
         result=result,
         user_input="",
         messages=messages,
-        chat_count=chat_count
+        chat_count=chat_count,
+        quick_questions=quick_questions
         )
 
 

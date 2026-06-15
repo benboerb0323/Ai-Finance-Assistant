@@ -13,6 +13,12 @@
         <h1>AI金融助手</h1>
 
         <h3>当前对话数: {{ chat_count }}</h3>
+        <div class = "quick-questions">
+            
+            {%for question in quick_questions %}
+                <button type="button" class="quick-btn">{{ question }}</button>
+            {%endfor%}
+        </div>
 
         <form method="POST" id="chat-form">
 
@@ -64,6 +70,8 @@
 
     const errorMessage = document.getElementById("error-message");
 
+    const quickButtons = document.querySelectorAll(".quick-btn");
+
     input.addEventListener("keydown", function(event) {
 
         if (event.key === "Enter") {
@@ -92,6 +100,18 @@
        
         errorMessage.innerText = "";
     });
+
+    quickButtons.forEach(function(button){
+
+        button.addEventListener("click", function() {
+
+            input.value = button.innerText;
+
+            input.focus();
+
+        });
+
+    })
 </script>
 </body>
 
