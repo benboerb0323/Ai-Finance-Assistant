@@ -1,4 +1,4 @@
-from flask import Flask,render_template,request,redirect,url_for
+from flask import Flask,render_template,request,redirect,url_for,session
 from openai import OpenAI
 from dotenv import load_dotenv
 import os
@@ -11,12 +11,20 @@ client=OpenAI(
 )
 
 app = Flask(__name__)
-messages = [
-    {
-        "role":"system",
-        "content":"你是一名专业银行AI助手"
-    }
-]
+app.secret_key = os.getenv("FLASK_SECRET_KEY")
+
+def get_messages():
+
+    if "messages" not in session:
+
+        session["messages"] = [
+            {
+                "role":"system",
+                "content":"你是一名专业银行AI助手"
+            }
+        ]
+    
+    return session["messages"]
 
 
 
@@ -45,7 +53,7 @@ def analyse_financial_needs(user_input):
 
 def ai_reply(question):
 
-    global messages
+    messages = get_messages()
 
     messages.append(
         {
@@ -67,6 +75,8 @@ def ai_reply(question):
         }
     )
 
+    session["messages"] = messages
+    
     return ai_text
 
 
@@ -77,12 +87,15 @@ def home():
     
     user_input = ""
 
+    messages = get_messages()
 
     if request.method == "POST":
 
         user_input = request.form["user_input"]
 
-        result = [ai_reply(user_input)]
+        ai_reply(user_input)
+
+        messages = get_messages()
 
 
     chat_count = (len(messages) - 1) // 2
@@ -109,9 +122,7 @@ def home():
 @app.route("/clear",methods=["POST"])
 def clear_chat():
 
-    global messages
-
-    messages = [
+    session["messages"] = [
         {
             "role":"system",
             "content":"你是一名专业银行AI助手"
