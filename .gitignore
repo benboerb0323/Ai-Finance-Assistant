@@ -217,4 +217,5 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
->>>>>>> e82669399c8df7e7e84f95cc626e9e70d531a932
+
+chat_history.db

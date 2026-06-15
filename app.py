@@ -2,6 +2,7 @@ from flask import Flask,render_template,request,redirect,url_for,session
 from openai import OpenAI
 from dotenv import load_dotenv
 import os
+from database import init_db
 
 load_dotenv()
 
@@ -13,6 +14,7 @@ client=OpenAI(
 app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET_KEY")
 
+init_db()
 def get_messages():
 
     if "messages" not in session:
