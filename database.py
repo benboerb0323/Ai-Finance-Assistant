@@ -36,3 +36,17 @@ def get_chat_history():
     history = cursor.fetchall()
     conn.close()
     return history
+
+def delete_all_history():
+    conn = sqlite3.connect("chat_history.db")
+    cursor = conn.cursor()
+    cursor.execute('DELETE FROM chat_history')
+    conn.commit()
+    conn.close()
+
+def delete_history_by_id(record_id):
+    conn = sqlite3.connect("chat_history.db")
+    cursor = conn.cursor()
+    cursor.execute('DELETE FROM chat_history WHERE id = ?', (record_id,))
+    conn.commit()
+    conn.close()

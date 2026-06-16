@@ -14,6 +14,10 @@
             <a href="{{ url_for('home') }}">返回聊天界面</a>
         </p>
 
+        <form method="POST" action="{{ url_for('delete_history') }}" onsubmit="return confirm('确定要删除全部历史记录吗？')">
+            <button type="submit" class="danger-btn">删除所有历史记录</button>
+        </form>
+
         <div class="history-list">
 
             {% for record in history_records %}
@@ -21,6 +25,11 @@
                 <p><strong>时间:</strong> {{ record['created_at'] }}</p>
                 <p><strong>用户:</strong> {{ record['user_message'] }}</p>
                 <p><strong>AI:</strong> {{ record['ai_message'] }}</p>
+
+                <form method="POST" action="{{ url_for('delete_history_record', record_id=record['id']) }}" onsubmit="return confirm('确定要删除这条历史记录吗？')">
+                    <button type="submit" class="danger-btn">删除</button>
+                </form>
+
             </div>
             {% endfor %}
         </div>

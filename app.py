@@ -2,7 +2,7 @@ from flask import Flask,render_template,request,redirect,url_for,session
 from openai import OpenAI
 from dotenv import load_dotenv
 import os
-from database import init_db, save_chat, get_chat_history
+from database import init_db, save_chat, get_chat_history, delete_all_history, delete_history_by_id
 
 load_dotenv()
 
@@ -121,6 +121,21 @@ def history():
         history_records=history_records
     )
 
+
+@app.route("/delete_history", methods=["POST"])
+def delete_history():
+
+    delete_all_history()
+
+    return redirect(url_for("history"))
+
+
+@app.route("/delete_history/<int:record_id>", methods=["POST"])
+def delete_history_record(record_id):
+
+    delete_history_by_id(record_id)
+
+    return redirect(url_for("history"))
 
 if __name__ == "__main__":
     app.run(debug=True)

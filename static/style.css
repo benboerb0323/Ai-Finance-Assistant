@@ -162,3 +162,12 @@ button:hover {
     margin: 8px 0;
     line-height: 1.6;
 }
+
+.danger-btn {
+    background: #d93025;
+    margin-bottom: 15px;
+}
+
+.danger-btn:hover {
+    background: #b3261e;
+}
