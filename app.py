@@ -2,7 +2,7 @@ from flask import Flask,render_template,request,redirect,url_for,session
 from openai import OpenAI
 from dotenv import load_dotenv
 import os
-from database import init_db
+from database import init_db, save_chat, get_chat_history
 
 load_dotenv()
 
@@ -27,30 +27,6 @@ def get_messages():
         ]
     
     return session["messages"]
-
-
-
-def analyse_financial_needs(user_input):
-
-    result =  []
-
-    if "低风险" in user_input:
-
-        result.append("客户偏好：稳健型")
-
-    if "高收益" in user_input:
-
-        result.append("客户偏好：进取型")
-
-    if "半年" in user_input:
-
-        result.append("推荐期限：6个月")
-
-    if len(result) == 0:
-
-        result.append("暂时无法识别客户需求")
-    
-    return result
 
 
 def ai_reply(question):
@@ -78,7 +54,7 @@ def ai_reply(question):
     )
 
     session["messages"] = messages
-    
+    save_chat(question, ai_text)
     return ai_text
 
 
@@ -132,6 +108,19 @@ def clear_chat():
     ]
 
     return redirect(url_for("home"))
+
+
+
+@app.route("/history")
+def history():
+
+    history_records = get_chat_history()
+
+    return render_template(
+        "history.html",
+        history_records=history_records
+    )
+
 
 if __name__ == "__main__":
     app.run(debug=True)
