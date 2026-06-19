@@ -50,3 +50,18 @@ def delete_history_by_id(record_id):
     cursor.execute('DELETE FROM chat_history WHERE id = ?', (record_id,))
     conn.commit()
     conn.close()
+
+
+def search_chat_history(keyword):
+    conn = sqlite3.connect("chat_history.db")
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    cursor.execute('''
+        SELECT id, user_message, ai_message, created_at 
+        FROM chat_history 
+        WHERE user_message LIKE ? OR ai_message LIKE ? 
+        ORDER BY created_at DESC
+    ''', (f'%{keyword}%', f'%{keyword}%'))
+    history = cursor.fetchall()
+    conn.close()
+    return history

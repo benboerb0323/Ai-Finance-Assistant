@@ -10,6 +10,29 @@
     <div class="container">
         <h1>聊天历史记录</h1>
 
+        <form method="GET" action="{{ url_for('history') }}" class="search-form">
+            <input type="text" name="keyword" placeholder="搜索历史记录..." value="{{ keyword }}">
+            <button type="submit">搜索</button>
+        </form>
+
+        {% if keyword %}
+            <p>
+                当前搜索: "{{ keyword }}"
+
+                <a href="{{ url_for('history') }}">清除搜索</a>
+
+            </p>
+        {% endif %}
+
+
+        <p class="history-count">
+            {% if keyword %}
+                搜索结果数量: 共 {{ history_count }} 条
+            {% else %}
+                历史记录总数: 共 {{ history_count }} 条
+            {% endif %}
+        </p>
+
         <p>
             <a href="{{ url_for('home') }}">返回聊天界面</a>
         </p>
@@ -30,6 +53,10 @@
                     <button type="submit" class="danger-btn">删除</button>
                 </form>
 
+            </div>
+            {% else %}
+            <div class="empty-history">
+                <p>暂无历史记录</p>
             </div>
             {% endfor %}
         </div>

@@ -171,3 +171,28 @@ button:hover {
 .danger-btn:hover {
     background: #b3261e;
 }
+
+.search-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.search-form input {
+    flex: 1;
+}
+
+.empty-history {
+    padding: 20px;
+    margin-top: 15px;
+    text-align: center;
+    color: #777;
+    background: #f8fbff;
+    border-radius: 10px;
+}
+
+.history-count {
+    color: #555;
+    font-size: 14px;
+    margin: 10px 0 15px;
+}

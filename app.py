@@ -2,7 +2,7 @@ from flask import Flask,render_template,request,redirect,url_for,session
 from openai import OpenAI
 from dotenv import load_dotenv
 import os
-from database import init_db, save_chat, get_chat_history, delete_all_history, delete_history_by_id
+from database import init_db, save_chat, get_chat_history, delete_all_history, delete_history_by_id, search_chat_history
 
 load_dotenv()
 
@@ -114,11 +114,20 @@ def clear_chat():
 @app.route("/history")
 def history():
 
-    history_records = get_chat_history()
+    keyword = request.args.get("keyword", "")
+
+    if keyword:
+        history_records = search_chat_history(keyword)
+    else:
+        history_records = get_chat_history()
+
+    history_count = len(history_records)
 
     return render_template(
         "history.html",
-        history_records=history_records
+        history_records=history_records,
+        keyword=keyword,
+        history_count=history_count
     )
 
 
