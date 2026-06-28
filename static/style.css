@@ -196,3 +196,21 @@ button:hover {
     font-size: 14px;
     margin: 10px 0 15px;
 }
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.pagination a {
+    text-decoration: none;
+    color: #1f5eff;
+    font-weight: bold;
+}
+
+.pagination span {
+    color: #555;
+}

@@ -116,10 +116,12 @@ def history():
 
     keyword = request.args.get("keyword", "")
 
+    page = request.args.get("page", 1, type=int)
+
     if keyword:
         history_records = search_chat_history(keyword)
     else:
-        history_records = get_chat_history()
+        history_records = get_chat_history(page=page)
 
     history_count = len(history_records)
 
@@ -127,7 +129,8 @@ def history():
         "history.html",
         history_records=history_records,
         keyword=keyword,
-        history_count=history_count
+        history_count=history_count,
+        page=page
     )
 
 

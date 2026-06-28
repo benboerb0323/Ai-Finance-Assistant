@@ -29,7 +29,7 @@
             {% if keyword %}
                 搜索结果数量: 共 {{ history_count }} 条
             {% else %}
-                历史记录总数: 共 {{ history_count }} 条
+                最近聊天记录: 共 {{ history_count }} 条
             {% endif %}
         </p>
 
@@ -60,6 +60,21 @@
             </div>
             {% endfor %}
         </div>
+        {% if not keyword %}
+            <div class = "pagination">
+
+                {% if page > 1 %}
+                    <a href="{{ url_for('history', page=page-1) }}">上一页</a>
+                {% endif %}
+
+                <span>第 {{ page }} 页</span>
+
+                {% if history_count == 10 %}
+                    <a href="{{ url_for('history', page=page+1) }}">下一页</a>
+                {% endif %}
+
+            </div>
+        {% endif %}
     </div>
 </body>
 </html>

@@ -28,11 +28,14 @@ def save_chat(user_message, ai_message):
     conn.commit()
     conn.close()
 
-def get_chat_history():
+def get_chat_history(page=1, per_page=10):
     conn = sqlite3.connect("chat_history.db")
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
-    cursor.execute('SELECT id, user_message, ai_message, created_at FROM chat_history ORDER BY created_at DESC')
+
+    offset = (page - 1) * per_page
+
+    cursor.execute('SELECT id, user_message, ai_message, created_at FROM chat_history ORDER BY created_at DESC LIMIT ? OFFSET ?', (per_page, offset))
     history = cursor.fetchall()
     conn.close()
     return history
