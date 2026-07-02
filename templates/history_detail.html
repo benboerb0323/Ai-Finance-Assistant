@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>聊天历史记录详情</title>
+        <link rel="stylesheet" href = "{{ url_for('static', filename='style.css') }}">
+    </head>
+    <body>
+        <div class="container">
+            <h1>聊天历史记录详情</h1>
+
+            <p>
+                <a href="{{ url_for('history') }}">返回历史记录列表</a>
+            </p>
+
+            <div class = "history-item">
+                <p><strong>时间：</strong> {{record['created_at']}}</p>
+
+                <div class = "detail-section">
+                    <h3>user</h3>
+                    <p>{{record['user_message']}}</p>
+                </div>
+                <div class = "detail-section">
+                    <h3>AI</h3>
+                    <p>{{record['ai_message']}}</p>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

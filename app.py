@@ -2,7 +2,7 @@ from flask import Flask,render_template,request,redirect,url_for,session
 from openai import OpenAI
 from dotenv import load_dotenv
 import os
-from database import init_db, save_chat, get_chat_history, delete_all_history, delete_history_by_id, search_chat_history
+from database import init_db, save_chat, get_chat_history, delete_all_history, delete_history_by_id, search_chat_history, get_history_count, get_history_by_id
 
 load_dotenv()
 
@@ -114,24 +114,62 @@ def clear_chat():
 @app.route("/history")
 def history():
 
-    keyword = request.args.get("keyword", "")
+    keyword = request.args.get("keyword", "").strip()
 
     page = request.args.get("page", 1, type=int)
 
+    per_page = 10
+
     if keyword:
         history_records = search_chat_history(keyword)
+        history_count = len(history_records)
+        total_count = history_count
+        total_pages = 1
     else:
-        history_records = get_chat_history(page=page)
+        total_count = get_history_count()
+        total_pages = (total_count + per_page - 1) // per_page
 
-    history_count = len(history_records)
+        if total_pages == 0:
+            total_pages = 1
+
+        if page < 1:
+            page = 1
+
+        if page > total_pages:
+            page = total_pages
+
+        history_records = get_chat_history(page=page, per_page=per_page)
+        history_count = len(history_records)
+
+
 
     return render_template(
         "history.html",
         history_records=history_records,
         keyword=keyword,
         history_count=history_count,
+        total_count=total_count,
+        total_pages=total_pages,
         page=page
     )
+
+
+@app.route("/history/<int:record_id>")
+def history_detail(record_id):
+
+    record = get_history_by_id(record_id)
+
+    if record is None:
+        return "Record not found", 404
+
+    return render_template(
+        "history_detail.html",
+        record=record
+    )
+
+
+
+
 
 
 @app.route("/delete_history", methods=["POST"])

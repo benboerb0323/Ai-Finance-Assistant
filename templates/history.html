@@ -29,7 +29,7 @@
             {% if keyword %}
                 搜索结果数量: 共 {{ history_count }} 条
             {% else %}
-                最近聊天记录: 共 {{ history_count }} 条
+                全部聊天记录: 共 {{ total_count }} 条, 当前显示 {{ history_count }} 条
             {% endif %}
         </p>
 
@@ -49,6 +49,8 @@
                 <p><strong>用户:</strong> {{ record['user_message'] }}</p>
                 <p><strong>AI:</strong> {{ record['ai_message'] }}</p>
 
+                <a href="{{ url_for('history_detail', record_id=record['id']) }}">查看详情</a>
+
                 <form method="POST" action="{{ url_for('delete_history_record', record_id=record['id']) }}" onsubmit="return confirm('确定要删除这条历史记录吗？')">
                     <button type="submit" class="danger-btn">删除</button>
                 </form>
@@ -67,9 +69,9 @@
                     <a href="{{ url_for('history', page=page-1) }}">上一页</a>
                 {% endif %}
 
-                <span>第 {{ page }} 页</span>
+                <span>第 {{ page }} / {{ total_pages }} 页</span>
 
-                {% if history_count == 10 %}
+                {% if page < total_pages %}
                     <a href="{{ url_for('history', page=page+1) }}">下一页</a>
                 {% endif %}
 

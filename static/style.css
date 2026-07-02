@@ -214,3 +214,20 @@ button:hover {
 .pagination span {
     color: #555;
 }
+
+.detail-section {
+    margin-top: 20px;
+    padding: 16px;
+    background-color: #f7f8fa;
+    border-radius: 10px;
+}
+
+.detail-section h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+.detail-section p {
+    line-height: 1.7;
+    white-space: pre-wrap;
+}

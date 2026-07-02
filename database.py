@@ -68,3 +68,20 @@ def search_chat_history(keyword):
     history = cursor.fetchall()
     conn.close()
     return history
+
+def get_history_count():
+    conn = sqlite3.connect("chat_history.db")
+    cursor = conn.cursor()
+    cursor.execute('SELECT COUNT(*) FROM chat_history')
+    total_count = cursor.fetchone()[0]
+    conn.close()
+    return total_count
+
+def get_history_by_id(record_id):
+    conn = sqlite3.connect("chat_history.db")
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    cursor.execute('SELECT id, user_message, ai_message, created_at FROM chat_history WHERE id = ?', (record_id,))
+    record = cursor.fetchone()
+    conn.close()
+    return record
