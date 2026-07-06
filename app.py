@@ -1,4 +1,4 @@
-from flask import Flask,render_template,request,redirect,url_for,session
+from flask import Flask,render_template,request,redirect,url_for,session,flash
 from openai import OpenAI
 from dotenv import load_dotenv
 import os
@@ -107,6 +107,8 @@ def clear_chat():
         }
     ]
 
+    flash("聊天记录已清除", "success")
+
     return redirect(url_for("home"))
 
 
@@ -177,6 +179,8 @@ def delete_history():
 
     delete_all_history()
 
+    flash("所有历史记录已删除", "success")
+
     return redirect(url_for("history"))
 
 
@@ -184,6 +188,8 @@ def delete_history():
 def delete_history_record(record_id):
 
     delete_history_by_id(record_id)
+
+    flash("该条历史记录已删除", "success")
 
     return redirect(url_for("history"))
 
