@@ -1,24 +1,10 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %}
 
-<head>
-    <title>聊天历史记录</title>
-    <link rel="stylesheet" href = "{{ url_for('static', filename='style.css') }}">
-</head>
+{% block title %}聊天历史记录{% endblock %}
 
-<body>
-    <div class="container">
+{% block content %}
         <h1>聊天历史记录</h1>
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                <div class="flash-messages">
-                    {% for category, message in messages %}
-                        <div class="flash-message {{ category }}">{{ message }}</div>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        {% endwith %}
-            
+      
 
         <form method="GET" action="{{ url_for('history') }}" class="search-form">
             <input type="text" name="keyword" placeholder="搜索历史记录..." value="{{ keyword }}">
@@ -87,6 +73,5 @@
 
             </div>
         {% endif %}
-    </div>
-</body>
-</html>
+ 
+{% endblock %}
