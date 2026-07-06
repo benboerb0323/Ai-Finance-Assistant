@@ -23,6 +23,10 @@
                     <h3>AI</h3>
                     <p>{{record['ai_message']}}</p>
                 </div>
+            
+                 <form method="POST" action="{{ url_for('delete_history_record', record_id=record['id']) }}" onsubmit="return confirm('确定要删除这条历史记录吗？')">
+                     <button type="submit" class="danger-btn">删除</button>
+                 </form>
             </div>
         </div>
     </body>
