@@ -9,6 +9,11 @@
 <body>
     <div class="container">
 
+        <nav class="navbar">
+            <a href="{{ url_for('home') }}">首页</a>
+            <a href="{{ url_for('history') }}">历史记录</a>
+        </nav>
+
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 <div class="flash-messages">

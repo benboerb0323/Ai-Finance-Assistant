@@ -254,3 +254,21 @@ button:hover {
     color: #b42318;
     border: 1px solid #f5b5ad;
 }
+
+.navbar {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+    padding: 12px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.navbar a {
+    text-decoration: none;
+    font-weight: bold;
+    color: #1f5eff;
+}
+
+.navbar a:hover {
+    text-decoration: underline;
+}
