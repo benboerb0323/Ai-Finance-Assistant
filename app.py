@@ -69,7 +69,11 @@ def home():
 
     if request.method == "POST":
 
-        user_input = request.form["user_input"]
+        user_input = request.form.get("user_input", "").strip()
+
+        if not user_input:
+            flash("请输入问题", "error")
+            return redirect(url_for("home"))
 
         ai_reply(user_input)
 
