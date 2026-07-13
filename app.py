@@ -39,12 +39,24 @@ def ai_reply(question):
             "content":question
         }
     )
-    response=client.chat.completions.create(
 
+    try:
+        response=client.chat.completions.create(
         model="deepseek-chat",
         messages=messages
     )
-    ai_text = response.choices[0].message.content
+        
+        ai_text = response.choices[0].message.content
+
+    except Exception as error:
+    
+        messages.pop()
+    
+        session["messages"] = messages
+    
+        print("AI REQUEST FAILED:", error)
+    
+        return None
 
     messages.append(
         {
@@ -75,7 +87,11 @@ def home():
             flash("请输入问题", "error")
             return redirect(url_for("home"))
 
-        ai_reply(user_input)
+        ai_text = ai_reply(user_input)
+
+        if ai_text is None:
+            flash("AI服务暂时不可用,请稍后再试", "error")
+            return redirect(url_for("home"))
 
         messages = get_messages()
 
@@ -111,7 +127,7 @@ def clear_chat():
         }
     ]
 
-    flash("聊天记录已清除", "success")
+    flash("当前对话已清空", "success")
 
     return redirect(url_for("home"))
 
