@@ -2,9 +2,17 @@ from flask import Flask,render_template,request,redirect,url_for,session,flash
 from openai import OpenAI
 from dotenv import load_dotenv
 import os
+import logging
 from database import init_db, save_chat, get_chat_history, delete_all_history, delete_history_by_id, search_chat_history, get_history_count, get_history_by_id
 
 load_dotenv()
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s %(message)s"
+    )
+
+logger = logging.getLogger(__name__)
 
 client=OpenAI(
     api_key=os.getenv("DEEPSEEK_API_KEY"),
@@ -48,13 +56,15 @@ def ai_reply(question):
         
         ai_text = response.choices[0].message.content
 
+        logger.info("AI request succeeded")
+
     except Exception as error:
     
         messages.pop()
     
         session["messages"] = messages
     
-        print("AI REQUEST FAILED:", error)
+        logger.error("AI request failed: %s", error)
     
         return None
 
